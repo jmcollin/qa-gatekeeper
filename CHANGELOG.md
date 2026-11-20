@@ -2,6 +2,13 @@
 
 ## 2026-11-20
 
+- QA Note matches the team's manual QA comment layout. One content, two renderings: the markdown draft printed under the cut (what the user approves) and, in `JIRA` mode, an HTML Jira body (`contentFormat: html`) with info panels for environment, initial conditions and summary, a note panel for TESTS, purple `CASE #n` labels, coloured statuses, an `ACTUAL RESULT` panel per status (success / error / note / warning) and OK cases collapsed under `DETAILS ↴`. The Jira body adds markup, never content.
+- Statuses stay `OK`, `KO`, `BLOCKED`, `TO TEST`, `TO DISCUSS` (no `NOK`); `TO TEST` stays reserved for user-approved skips, a case not run for lack of data is `BLOCKED`.
+- Draft gains a `BRANCH NAME` line and a `LOCAL 🖥️` environment type. `None` is no longer an allowed initial-conditions value.
+- KO result condensed: `Severity: P<n>. Reproduced <n/m>.` and `Suspect: <file> (<hypothesis>)`; URL and evidence go in the observation.
+- Optional header prefix `<PROJECT LABEL> | `, only when the user names it in the thread.
+- Fix: `createJiraIssue` takes `issueType`, not `issueTypeName`.
+
 - Jira is optional. The QA Note has a mode per ticket, set at preflight: `JIRA` (Jira connected, ticket in Jira, project has the `QA Note` issue type: draft, then create after approval) or `DRAFT ONLY (<reason>)` (Jira not connected, ticket in another tracker, or no `QA Note` issue type: draft printed under the cut, nothing created). No ticket: no note.
 - Jira not connected is `SKIPPED (not connected)`, never `MISSING`, and never blocks the gate. AC come from the PR description or are asked.
 - The issue type is checked on the project metadata, never by a trial create. A failed create switches the ticket to `DRAFT ONLY (create failed: <error>)`: no retry with other fields or another issue type.

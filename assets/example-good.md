@@ -68,7 +68,9 @@ What makes it good:
 - Every `TO TEST` is a `SKIPPED (user-approved — reason)` CUJ; the reason stays in the chat, the case keeps an empty actual result.
 - `OK` checked against a proxy says so in a `Note:`. `BLOCKED` gives what was tried and the unblocker. `TO DISCUSS` gives the conflicting tickets and one question.
 - A defect outside the scope is one `Side note`, never a case.
+- No header prefix: nobody named a project label in the thread.
 - Shortened: SUMMARY lists all 13 cases; only one case per shape is shown below. A real note shows every case.
+- This is the draft printed under the cut. In `JIRA` mode the same words are rendered into the HTML Jira body of `assets/qa-note.md`: info panels, coloured statuses, `ACTUAL RESULT` panel by status, CASE #1, #2 and #8 collapsed under `DETAILS ↴`.
 
 Parent: PROJ-123 · Type: QA Note
 Summary: QA note PROJ-123 - TEST #1: Free returns badge OK, badge ordering blocked, variant rule and bundles to discuss
@@ -79,6 +81,8 @@ Summary: QA note PROJ-123 - TEST #1: Free returns badge OK, badge ordering block
 ### **TESTING ENVIRONMENT: INTEGRATION (int 4) 🌐**
 
 https://shop-int4.example.com/en/
+
+**BRANCH NAME:** `feat/free-returns-badge`
 
 ### **INITIAL CONDITIONS/EXTRA INFO:**
 

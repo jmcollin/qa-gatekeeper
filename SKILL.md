@@ -162,7 +162,7 @@ Every mode: print each draft in full under the chat cut, after `Not verified`: p
 `JIRA`, approval ticket by ticket:
 
 1. Create a note only after a reply in this thread that names its ticket (`create QA note PROJ-123`, `crée la QA note PROJ-123`). `ok`, `go`, silence: no approval.
-2. Create it exactly as approved, with `createJiraIssue` (fields in the asset). A requested change means a new draft and a new approval.
+2. Create it exactly as approved, with `createJiraIssue` (fields in the asset), the approved draft rendered as the asset's HTML Jira body (`contentFormat: html`: panels, coloured statuses, OK cases collapsed). A requested change means a new draft and a new approval.
 3. If the create fails, do not retry with other fields or another issue type: switch that ticket to `DRAFT ONLY (create failed: <error>)` and say so.
 4. Reply with the key and URL of each note created.
 

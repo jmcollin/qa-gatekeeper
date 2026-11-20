@@ -39,7 +39,7 @@ The PM must not have to scroll to learn that a choice is required.
 
 The manual QA comment on PROJ-123 (TEST #1) is the format our QA proposed, and the source of this template. Copied as-is by the skill, though, some of its parts break the gate rules. The fixed version is in `assets/example-good.md`, section QA Note.
 
-The `<Team> |` prefix in its header is not a fault: it is part of the QA's proposal. The skill simply does not print it.
+The `<Team> |` prefix in its header is not a fault: it is part of the QA's proposal. The skill prints a prefix only when the user names the project label in the thread.
 
 Do not:
 

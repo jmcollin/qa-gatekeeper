@@ -49,7 +49,7 @@ Not verified
 QA Note draft — <KEY>
 Parent: <KEY> · Type: QA Note
 Summary: <summary per assets/qa-note.md>
-<description per assets/qa-note.md, in English> ]]
+<draft per assets/qa-note.md (markdown draft, never the HTML Jira body), in English> ]]
 ```
 
 ## Rules
