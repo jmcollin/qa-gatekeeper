@@ -26,7 +26,7 @@ Prefer bullets when a cell is longer than a few words.
 - Gaps accepted by the user: the gap, and the reply that accepted it
 - Plan: each Phase 1 invariant, one bullet, with the CUJ that covers it or `not covered` + why
 
-Do not cite Jira ticket status. In the chat, do not repeat A as a second essay.
+Do not cite ticket status. In the chat, do not repeat A as a second essay.
 
 ## B. Execution
 

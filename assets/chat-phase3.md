@@ -23,8 +23,10 @@ Nothing blocking. <remaining P2s in one line, or: no P2> ]]
 Residual risks: <none, or the accepted gaps>
 PM must: <action>. Owner: <name, or the requester>.
 Rollback: [[ <revert / flag / cache clear> | UNKNOWN, accepted by <who>: "<their reply>" | UNKNOWN, not accepted ]]
-[[ one line per Jira ticket of the run, or nothing if there is none:
-QA Note <KEY>: draft below. Reply `create QA note <KEY>` to create it in Jira. ]]
+[[ one line per ticket of the run, or nothing if there is none, in the shape of its QA Note mode:
+QA Note <KEY>: draft below. Reply `create QA note <KEY>` to create it in Jira.
+  — or, mode DRAFT ONLY —
+QA Note <KEY>: draft below, not created (<reason>). Copy it into the ticket. ]]
 
 ---
 
@@ -43,11 +45,11 @@ Not verified
 - DB: [[ OFF. Risk: <state not re-read>. | ON, see SQL above. ]]
 - <other gap>: <risk>
 
-[[ one block per Jira ticket, or nothing if there is none:
+[[ one block per ticket, or nothing if there is none:
 QA Note draft — <KEY>
 Parent: <KEY> · Type: QA Note
-Summary: <summary per assets/jira-qa-note.md>
-<description per assets/jira-qa-note.md, in English> ]]
+Summary: <summary per assets/qa-note.md>
+<description per assets/qa-note.md, in English> ]]
 ```
 
 ## Rules
@@ -58,5 +60,5 @@ Summary: <summary per assets/jira-qa-note.md>
 - `UNKNOWN, not accepted` only appears with `NO-GO` (decision table in `SKILL.md`). A known rollback needs no acceptance.
 - `GO` always has `Nothing blocking`. A `GO` with a Blockers line is a contradiction: re-read the decision table.
 - Translate the prose to the user's language. Tokens stay in English. The QA Note drafts stay in English entirely.
-- The `create QA note <KEY>` line is the action, not a question after evidence. Nothing is written to Jira until that reply arrives (section QA Note in `SKILL.md`).
+- The `create QA note <KEY>` line is the action, not a question after evidence. Nothing is written to Jira until that reply arrives (section QA Note in `SKILL.md`). In `DRAFT ONLY` mode there is no action: nothing is ever written.
 - Do not print this Rules section.

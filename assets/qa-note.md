@@ -1,13 +1,15 @@
-# Jira QA Note — one per ticket, always in English
+# QA Note — one per ticket, always in English
 
-Everything outside the fence is an instruction. The QA Note is a Jira sub-task of type `QA Note` under the ticket. It complements the Phase 3 chat; it never replaces it. The approval rule and the status mapping are in `SKILL.md` (section QA Note). Do not restate them. A filled note (PROJ-123) is in `assets/example-good.md`, section QA Note; the shape to avoid is in `assets/example-bad.md`, section QA Note.
+Everything outside the fence is an instruction. The QA Note is the QA report attached to one ticket. In `JIRA` mode it is created as a Jira sub-task of type `QA Note` under the ticket; in `DRAFT ONLY` mode it is only printed, for the user to copy into their tracker. It complements the Phase 3 chat; it never replaces it. The modes, the approval rule and the status mapping are in `SKILL.md` (section QA Note). Do not restate them. A filled note (PROJ-123) is in `assets/example-good.md`, section QA Note; the shape to avoid is in `assets/example-bad.md`, section QA Note.
 
 ## Before drafting
 
-- Read the ticket's existing QA Notes: JQL `parent = <KEY> AND issuetype = "QA Note"`. `<n>` = highest `TEST #k` found in their summaries + 1, or 1 if none carries one.
+- `<n>`: in `JIRA` mode, read the ticket's existing QA Notes (JQL `parent = <KEY> AND issuetype = "QA Note"`); `<n>` = highest `TEST #k` found in their summaries + 1, or 1 if none carries one. In `DRAFT ONLY` mode, use 1 unless the user gave a number, and say so in the line above the cut.
 - Cases: the CUJs that cover this ticket, in plan order, renumbered `CASE #1`, `CASE #2`, … for this note. A CUJ covering two tickets appears in both notes.
 
-## Jira fields
+## Jira fields (`JIRA` mode only)
+
+In `DRAFT ONLY` mode, print only the parent, the summary below, and the description.
 
 - `projectKey`: the ticket's project
 - `issueTypeName`: `QA Note`

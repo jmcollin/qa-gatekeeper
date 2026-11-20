@@ -59,7 +59,7 @@ DB: not verified. Figma and Gmail: out of scope.
 
 # Good — QA Note
 
-Copy the shape. The scenario (a "Free 30-day returns" badge in the "Delivery & returns" block of a product page) is fictional, adapted to the rules of `assets/jira-qa-note.md`. The ticket keys, PR id, SHA, product names and IDs are fake. Do not copy cases, IDs or findings into another note: derive them from that run.
+Copy the shape. The scenario (a "Free 30-day returns" badge in the "Delivery & returns" block of a product page) is fictional, adapted to the rules of `assets/qa-note.md`. The ticket keys, PR id, SHA, product names and IDs are fake. Do not copy cases, IDs or findings into another note: derive them from that run.
 
 What makes it good:
 

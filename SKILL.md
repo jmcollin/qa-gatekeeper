@@ -27,7 +27,7 @@ Copy the *content* of a template's fenced block, without the ```` ``` ```` fence
 | Phase 1 scoping | `references/phase-1.md` |
 | Phase 2 execution, or static-only close | `references/phase-2.md` |
 | Annex asked, or writing under the cut | `references/evidence-table.md` |
-| Phase 3, the run has at least one Jira ticket | `assets/jira-qa-note.md` |
+| Phase 3, the run has at least one ticket | `assets/qa-note.md` |
 
 Do not load all of them up front. Status words, the decision table, and skip rules live only in this file. Other files point here.
 
@@ -72,7 +72,7 @@ Accepting a CI or rollback risk follows the same rule as a waive: a reply that n
 - No FAIL without repro steps + impact + suspect file. Add `path#Lxx` when the diff hunk is identifiable. If it is not, write `file` + `UNKNOWN line` + why. Never invent a line number.
 - No assumption stated as fact. Label it `ASSUMED` or `UNKNOWN`.
 - Optimize for regression risk, not test volume.
-- Jira board / ticket statuses are NOT decision inputs. Only execution findings count.
+- Ticket statuses (Jira board or any tracker) are NOT decision inputs. Only execution findings count.
 
 Decision tokens — first line of the Phase 3 chat only. Nothing above the tag. Do not emit a decision tag in Phase 1.
 
@@ -133,7 +133,17 @@ Do not create an HTML artifact unless the user asks. Do not create `gate-report.
 
 ## QA Note
 
-At Phase 3, each Jira ticket of the run gets a QA Note draft: a Jira sub-task of type `QA Note`, in English, shaped by `assets/jira-qa-note.md`. It complements the chat, never replaces it. No ticket referenced → no QA Note, no line about it.
+At Phase 3, each ticket of the run gets a QA Note draft, in English, shaped by `assets/qa-note.md`. It complements the chat, never replaces it.
+
+Jira is optional. The mode is set once, at preflight, per ticket, and written in the working trace (`QA Note mode: <KEY> JIRA | DRAFT ONLY (<reason>)`):
+
+| Situation | Mode |
+|---|---|
+| No ticket referenced by the PR, branch, or commits | none: no QA Note, no line about it |
+| Jira connected, the ticket is in Jira, and its project has the issue type `QA Note` | `JIRA`: draft, then create it as a sub-task after approval |
+| Jira not connected, the ticket lives in another tracker (GitHub issue, Linear…), or its project has no `QA Note` issue type | `DRAFT ONLY (<reason>)`: draft printed under the cut, nothing created |
+
+Check the issue type on the project's issue-type metadata, never by trying a create. A Jira that is not connected is never `MISSING` and never blocks the gate.
 
 Display mapping, QA Note only. The chat, the trace and the decision table keep the tokens above.
 
@@ -145,14 +155,18 @@ Display mapping, QA Note only. The chat, the trace and the decision table keep t
 | `BLOCKED`, any other cause | `BLOCKED` |
 | `SKIPPED (…)` | `TO TEST` |
 
-Approval, ticket by ticket:
+Every mode: print each draft in full under the chat cut, after `Not verified`: parent, summary, description.
 
-1. Print each draft in full under the chat cut, after `Not verified`: parent, summary, description.
-2. Create a note only after a reply in this thread that names its ticket (`create QA note PROJ-123`, `crée la QA note PROJ-123`). `ok`, `go`, silence: no approval.
-3. Create it exactly as approved, with `createJiraIssue` (fields in the asset). A requested change means a new draft and a new approval.
+`DRAFT ONLY`: the line above the cut says the note was not created and why. The user copies it into their tracker. Never post it anywhere yourself.
+
+`JIRA`, approval ticket by ticket:
+
+1. Create a note only after a reply in this thread that names its ticket (`create QA note PROJ-123`, `crée la QA note PROJ-123`). `ok`, `go`, silence: no approval.
+2. Create it exactly as approved, with `createJiraIssue` (fields in the asset). A requested change means a new draft and a new approval.
+3. If the create fails, do not retry with other fields or another issue type: switch that ticket to `DRAFT ONLY (create failed: <error>)` and say so.
 4. Reply with the key and URL of each note created.
 
-This is the only Jira write the skill makes.
+This is the only tracker write the skill makes.
 
 ## Prior knowledge
 
@@ -191,7 +205,7 @@ Write the path token in the working notes and on the header line of the PM messa
 
 Claude Code MCPs + `gh`. Do not substitute guesses for a missing tool.
 
-Always: `gh auth status`, then `gh pr view` / `gh pr diff` / `gh pr checks`. Jira only if the PR, branch, or commit message references a ticket. Otherwise `SKIPPED (no ticket ref)` — no chat line.
+Always: `gh auth status`, then `gh pr view` / `gh pr diff` / `gh pr checks`. Jira only if the PR, branch, or commit message references a Jira ticket. Otherwise `SKIPPED (no ticket ref)` — no chat line. Referenced but not connected: `SKIPPED (not connected)`, no chat line. Take the AC from the PR description, or ask for them (Inputs, item 2). Set the QA Note mode per ticket (section QA Note).
 
 Chrome DevTools is required for every planned UI CUJ, P0 through P2. Not required for a pure SQL review or a diff-only fast path. Figma only if a design link exists and a visual assertion is in scope. Gmail only if transactional email content or delivery is in scope.
 
@@ -201,12 +215,12 @@ If a required tool is MISSING: the PM message asks connect-or-waive, names how t
 
 How to connect:
 - Chrome DevTools: `.mcp.json` entry `chrome-devtools` → `/mcp` reconnect. Needs Node 20.19+ and Chrome.
-- Figma / Gmail / Jira: claude.ai → Settings → Connectors, then `/mcp` auth.
+- Figma / Gmail / Jira (optional): claude.ai → Settings → Connectors, then `/mcp` auth.
 - GitHub: `gh auth login`.
 
 ## Inputs
 
-Pull from GitHub + Jira first. Ask only for what they cannot provide.
+Pull from GitHub first, and from Jira when it is connected. Ask only for what they cannot provide.
 
 1. PR or branch
 2. Tickets + AC, if any
@@ -248,7 +262,7 @@ Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. 
 - Dropping a finding because of a memory without listing it under `Known decisions applied`
 - PASS without the evidence required for that CUJ
 - Growing scope beyond the changeset + stated AC
-- Using Jira board status as a decision input
+- Using ticket status as a decision input
 - Scenarios for a deployment setup the project does not run
 - Honoring `fast` when the veto list is hit
 - Write queries
@@ -262,6 +276,7 @@ Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. 
 - A template printed inside a code fence
 - An HTML artifact or annex file the user did not ask for
 - Copying facts from `assets/example-good.md` into a real report
-- Any Jira write other than a QA Note approved by a reply naming its ticket: no comment, transition, field edit, or link
+- Any tracker write other than a QA Note in `JIRA` mode, approved by a reply naming its ticket: no comment, transition, field edit, or link
 - Posting the report as a ticket comment instead of a QA Note
+- Creating anything in `DRAFT ONLY` mode, or creating the note under another issue type when `QA Note` is missing
 - A QA Note in a language other than English

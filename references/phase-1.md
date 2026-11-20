@@ -36,7 +36,7 @@ Working trace, not the chat grid:
 
 `ID | ticket | title | actor+role | preconditions | steps | expected | P0–P2 + why (file, + #Lxx if known) | evidence to collect`
 
-- `ticket`: the Jira key the CUJ covers, or `none`. It routes the CUJ to that ticket's QA Note (`assets/jira-qa-note.md`).
+- `ticket`: the ticket key the CUJ covers (Jira or any tracker), or `none`. It routes the CUJ to that ticket's QA Note (`assets/qa-note.md`).
 - `title`: `<Area>: <behaviour checked>`, in English, e.g. `PDP Delivery & returns: Product with Free returns = NO shows no returns badge`.
 - Preconditions, steps and expected: in English too, numbered steps, env URL in step 1. They are copied into the QA Note as written.
 - Cover the AC first, then regressions, then out-of-scope guards (`the X is not displayed elsewhere`) when the AC fences the scope.

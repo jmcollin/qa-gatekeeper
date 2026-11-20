@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-20
+
+- Jira is optional. The QA Note has a mode per ticket, set at preflight: `JIRA` (Jira connected, ticket in Jira, project has the `QA Note` issue type: draft, then create after approval) or `DRAFT ONLY (<reason>)` (Jira not connected, ticket in another tracker, or no `QA Note` issue type: draft printed under the cut, nothing created). No ticket: no note.
+- Jira not connected is `SKIPPED (not connected)`, never `MISSING`, and never blocks the gate. AC come from the PR description or are asked.
+- The issue type is checked on the project metadata, never by a trial create. A failed create switches the ticket to `DRAFT ONLY (create failed: <error>)`: no retry with other fields or another issue type.
+- Phase 3 template: the QA Note line above the cut has a `DRAFT ONLY` shape (`not created (<reason>)`, no create action).
+- `assets/jira-qa-note.md` renamed `assets/qa-note.md`. Ticket keys may come from any tracker.
+- Generic skill: no product- or company-specific context. Deployment-context rule replaces the single-shop rule. Payment-probe endpoints, env hosts and surfaces (front office / back office) described generically. QA Note examples use a fictional e-commerce scenario.
+
 ## 2026-10-12
 
 - Phase 3 drafts one Jira QA Note per ticket (sub-task `QA Note`, English), shaped like the manual QA comment on PROJ-123: `TEST #n | <decision>`, environment, initial conditions, SUMMARY, then one `CASE #n` block per CUJ (preconditions, steps, expected, actual). Template in `assets/jira-qa-note.md`.
