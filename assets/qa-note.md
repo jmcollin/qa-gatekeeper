@@ -1,4 +1,4 @@
-# QA Note — one per ticket, always in English
+# QA Note — one per ticket with a CUJ not PASS, always in English
 
 Everything outside the fences is an instruction. The QA Note is the QA report attached to one ticket. In `JIRA` mode it is created as a Jira sub-task of type `QA Note` under the ticket; in `DRAFT ONLY` mode it is only printed, for the user to copy into their tracker. It complements the Phase 3 chat; it never replaces it. The modes, the approval rule and the status mapping are in `SKILL.md` (section QA Note). Do not restate them. A filled draft (PROJ-123) is in `assets/example-good.md`, section QA Note; the shape to avoid is in `assets/example-bad.md`, section QA Note.
 

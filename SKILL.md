@@ -27,7 +27,8 @@ Copy the *content* of a template's fenced block, without the ```` ``` ```` fence
 | Phase 1 scoping | `references/phase-1.md` |
 | Phase 2 execution, or static-only close | `references/phase-2.md` |
 | Annex asked, or writing under the cut | `references/evidence-table.md` |
-| Phase 3, the run has at least one ticket | `assets/qa-note.md` |
+| Phase 3, a ticket has at least one CUJ not `PASS` | `assets/qa-note.md` |
+| The user asks for the PR comment | `assets/pr-comment.md` |
 
 Do not load all of them up front. Status words, the decision table, and skip rules live only in this file. Other files point here.
 
@@ -133,7 +134,9 @@ Do not create an HTML artifact unless the user asks. Do not create `gate-report.
 
 ## QA Note
 
-At Phase 3, each ticket of the run gets a QA Note draft, in English, shaped by `assets/qa-note.md`. It complements the chat, never replaces it.
+At Phase 3, a ticket of the run gets a QA Note draft only when at least one CUJ routed to it is not `PASS` (`FAIL`, `BLOCKED` or `SKIPPED`). The draft is in English, shaped by `assets/qa-note.md`, and lists every CUJ of that ticket, `PASS` ones included. It complements the chat, never replaces it.
+
+Every CUJ of the ticket `PASS` → no QA Note and no line about it, whatever its mode below.
 
 Jira is optional. The mode is set once, at preflight, per ticket, and written in the working trace (`QA Note mode: <KEY> JIRA | DRAFT ONLY (<reason>)`):
 
@@ -167,6 +170,23 @@ Every mode: print each draft in full under the chat cut, after `Not verified`: p
 4. Reply with the key and URL of each note created.
 
 This is the only tracker write the skill makes.
+
+## PR comment
+
+When the target is a GitHub PR, Phase 3 offers an evidence comment on the PR, whatever the decision and whatever the QA Note mode: one line above the cut (`assets/chat-phase3.md`). Branch without a PR → no line.
+
+1. Draft it only after a reply that asks for it (`post PR comment`, `fais le commentaire sur la PR`). Shape and file: `assets/pr-comment.md`.
+2. Show the draft: one line per section saying what it holds, and the full path of the file. Wait for a reply approving that draft. `ok` counts here, because the draft was just shown: this is an approval, not a waive, so the Waive rule does not apply. Silence does not count.
+3. Post it exactly as approved: `gh pr comment <id> -R <owner>/<repo> --body-file <file>`. Reply with the comment URL.
+4. Write the comment ID, its `<n>` and the SHA under test in the working trace.
+5. Later in the same thread, on the same SHA under test (a retest, a `Not verified` gap closed, a wording change asked), edit that comment, never post a second one. Keep its `<n>`. Refresh with this run: header token, TL;DR, Setup build proof, Summary, the cases that changed, `Not verified`, and the `QA run:` date. Start from the file; if it is gone, read the body back with `gh api repos/<owner>/<repo>/issues/comments/<comment id> --jq .body`.
+   - A reply that asks for the edit (`update the PR comment`, `mets à jour le commentaire`) approves it: apply it, then say in the chat what changed.
+   - A retest request alone does not: after the retest, show the changed lines and wait for approval.
+   - Apply it with `gh api -X PATCH repos/<owner>/<repo>/issues/comments/<comment id> -F body=@<file>`.
+6. New SHA under test (a fix pushed after the comment): it is a new run. New comment, `TEST #<n+1>`, through steps 1 to 3.
+7. Comment ID lost: find the comment by its header and SHA in the PR comments (`gh api --paginate`). Comment deleted: ask before posting a new one.
+
+The PR comment is the only GitHub write the skill makes.
 
 ## Prior knowledge
 
@@ -254,7 +274,7 @@ Phase 2 gate, only this:
 
 Phase 2: read `references/phase-2.md` before the first CUJ. Order P0 → P1 → P2. Run every planned CUJ. Before the Phase 3 chat, every row has a status from the list above.
 
-Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. Auditor detail under the cut, shape in `references/evidence-table.md`. Then the QA Note drafts (section QA Note), under the cut.
+Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. Auditor detail under the cut, shape in `references/evidence-table.md`. Then the QA Note drafts (section QA Note), under the cut. The PR comment is drafted only when asked (section PR comment).
 
 ## Forbidden
 
@@ -277,6 +297,8 @@ Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. 
 - An HTML artifact or annex file the user did not ask for
 - Copying facts from `assets/example-good.md` into a real report
 - Any tracker write other than a QA Note in `JIRA` mode, approved by a reply naming its ticket: no comment, transition, field edit, or link
+- Any GitHub write other than the PR comment of section PR comment: no review, approval, label, or second QA comment for the same thread
 - Posting the report as a ticket comment instead of a QA Note
+- A PR comment posted or edited without the reply that section PR comment requires, or in a language other than English
 - Creating anything in `DRAFT ONLY` mode, or creating the note under another issue type when `QA Note` is missing
 - A QA Note in a language other than English

@@ -23,10 +23,14 @@ Nothing blocking. <remaining P2s in one line, or: no P2> ]]
 Residual risks: <none, or the accepted gaps>
 PM must: <action>. Owner: <name, or the requester>.
 Rollback: [[ <revert / flag / cache clear> | UNKNOWN, accepted by <who>: "<their reply>" | UNKNOWN, not accepted ]]
-[[ one line per ticket of the run, or nothing if there is none, in the shape of its QA Note mode:
+[[ one line per ticket with at least one CUJ not PASS, or nothing if there is none, in the shape of its QA Note mode:
 QA Note <KEY>: draft below. Reply `create QA note <KEY>` to create it in Jira.
   — or, mode DRAFT ONLY —
 QA Note <KEY>: draft below, not created (<reason>). Copy it into the ticket. ]]
+[[ only when the target is a GitHub PR:
+PR comment: reply `post PR comment` to get the evidence comment for PR <id>.
+  — or, when this thread already posted it for this SHA —
+PR comment: <comment URL>. Reply `update the PR comment` to put this run in it. ]]
 
 ---
 
@@ -45,7 +49,7 @@ Not verified
 - DB: [[ OFF. Risk: <state not re-read>. | ON, see SQL above. ]]
 - <other gap>: <risk>
 
-[[ one block per ticket, or nothing if there is none:
+[[ one block per ticket with at least one CUJ not PASS, or nothing if there is none:
 QA Note draft — <KEY>
 Parent: <KEY> · Type: QA Note
 Summary: <summary per assets/qa-note.md>
