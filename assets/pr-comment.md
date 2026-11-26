@@ -71,6 +71,15 @@ Copy the content of the fence, without the fence lines. `[[ … ]]` is a choice:
 
 ---
 
+[[ only when the run has post-merge checks:
+### ⏭️ After merge
+
+**<Area>: <behaviour checked>** on <env URL>. Owner: <name, or the requester>
+1. <step>
+2. <step>
+
+Expected: <expected> ]]
+
 [[ only if a gap remains:
 ### ❌ Not verified
 
@@ -85,6 +94,7 @@ Copy the content of the fence, without the fence lines. `[[ … ]]` is a choice:
 - Header token = the `<decision>` token of the Phase 3 chat.
 - TL;DR and Testing environment: one line each. Everything else about the setup goes in `Setup ↴`.
 - `OK` cases are collapsed under `Details ↴`. Other statuses stay open.
+- After merge items are not cases: not in the TL;DR count, not in Summary.
 - GitHub renders Markdown inside `<details>` only with a blank line after `</summary>` and before `</details>`.
 - Facts only from this run, each tied to the SHA in the run marker. A check made in an earlier session or by someone else is cited as such, never as a result of this run.
 - No credentials, tokens or session parameters: strip `_token=`, `token=` and the like from every URL.

@@ -83,7 +83,7 @@ Decision tokens — first line of the Phase 3 chat only. Nothing above the tag. 
 
 ## Decision table
 
-Apply after execution, or after static-only if Phase 2 is blocked. Precondition: every planned CUJ has a status. If one has none, there is no Phase 3: run it or ask.
+Apply after execution, or after static-only if Phase 2 is blocked. Precondition: every planned CUJ has a status. If one has none, there is no Phase 3: run it or ask. Post-merge checks are not CUJs: they never hold Phase 3 back.
 
 Rows are not exclusive. The most severe matching row wins: `NO-GO` over `GO WITH RISKS` over `GO`. `GO` needs its own row. If no row matches, the decision is `NO-GO`.
 
@@ -104,7 +104,27 @@ Rows are not exclusive. The most severe matching row wins: `NO-GO` over `GO WITH
 
 A P2 CUJ `BLOCKED` or `SKIPPED` is a gap listed under `Not verified`, not a decision row. If that CUJ is the only evidence for a stated acceptance criterion, treat it as P1.
 
+A post-merge check (section below) is not a decision row either.
+
 `GO WITH RISKS` always prints, above the cut: residual risks, owner (a named person, or the requester when none is named), and rollback (path, or `UNKNOWN` plus who accepted it).
+
+## Post-merge checks
+
+Some AC steps can only run once the PR is merged: they target an env that gets the change only from the base branch or a release. Such a step is a post-merge check, not a CUJ.
+
+Classify in Phase 1, before the first CUJ runs. A step is a post-merge check only when all three hold. Write the evidence of each in the working trace:
+
+1. The PR is not merged yet.
+2. The AC names that env (preprod, production) or that moment (`after merge`, `before the prod tag`). A step that also names a pre-merge env is split: that part is a CUJ.
+3. The deploy config (CD workflow, helm values, environments file), read at the base branch, shows that env is deployed from the base branch or a release tag, never from a PR. The PR changes that config, or it cannot be read → the step stays a CUJ, at its Phase 1 priority, under the normal status rules.
+
+Then:
+
+- Its behaviour gets a pre-merge CUJ on an env that has the change (integration, QA): same steps and expected, same priority as the AC step and at least P1. That CUJ's status drives the decision through the table, like any CUJ.
+- The post-merge check has no status token and never changes the decision. This skill never runs it. It is never listed under `Not verified`.
+- It is listed on the `After merge` line of the chat (check, env, owner), and with steps, expected, env URL and owner in the PR comment and, when the ticket gets a QA Note, in the note. With `GO`, `PM must` is the merge and does not repeat it.
+- Once Phase 1 is written, nothing moves a step between CUJ and post-merge check: not a result, not a user reply, not an env that is behind. A CUJ `BLOCKED` by `env behind` on an integration env stays a CUJ.
+- A post-merge check that fails after the merge is a new defect on the merged SHA, outside this run.
 
 ## Chat surface
 
@@ -179,7 +199,7 @@ When the target is a GitHub PR, Phase 3 offers an evidence comment on the PR, wh
 2. Show the draft: one line per section saying what it holds, and the full path of the file. Wait for a reply approving that draft. `ok` counts here, because the draft was just shown: this is an approval, not a waive, so the Waive rule does not apply. Silence does not count.
 3. Post it exactly as approved: `gh pr comment <id> -R <owner>/<repo> --body-file <file>`. Reply with the comment URL.
 4. Write the comment ID, its `<n>` and the SHA under test in the working trace.
-5. Later in the same thread, on the same SHA under test (a retest, a `Not verified` gap closed, a wording change asked), edit that comment, never post a second one. Keep its `<n>`. Refresh with this run: header token, TL;DR, Setup build proof, Summary, the cases that changed, `Not verified`, and the `QA run:` date. Start from the file; if it is gone, read the body back with `gh api repos/<owner>/<repo>/issues/comments/<comment id> --jq .body`.
+5. Later in the same thread, on the same SHA under test (a retest, a `Not verified` gap closed, a wording change asked), edit that comment, never post a second one. Keep its `<n>`. Refresh with this run: header token, TL;DR, Setup build proof, Summary, the cases that changed, `After merge`, `Not verified`, and the `QA run:` date. Start from the file; if it is gone, read the body back with `gh api repos/<owner>/<repo>/issues/comments/<comment id> --jq .body`.
    - A reply that asks for the edit (`update the PR comment`, `mets à jour le commentaire`) approves it: apply it, then say in the chat what changed.
    - A retest request alone does not: after the retest, show the changed lines and wait for approval.
    - Apply it with `gh api -X PATCH repos/<owner>/<repo>/issues/comments/<comment id> -F body=@<file>`.
@@ -290,6 +310,7 @@ Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. 
 - Replacing a missing tool with a story
 - A status token outside the list in this file
 - Skipping a planned CUJ without an explicit user reply in this thread
+- A post-merge check without all three conditions of section Post-merge checks, classified after a CUJ ran, run by this skill, or without a pre-merge CUJ for its behaviour
 - Direct GET on a payment endpoint in production, preprod, or an unknown env — see `references/phase-2.md`
 - Extra confirmation pause when env URL and P0 account are already known
 - Box-drawing tables, or a table of more than 4 columns, in the PM message
