@@ -3,6 +3,9 @@ name: qa-gatekeeper
 description: Evidence-based GO / NO-GO release gate for one PR or branch. Not for implementing the feature.
 disable-model-invocation: true
 argument-hint: <PR or branch> [db-checks]
+metadata:
+  author: Jean-Marie COLLIN
+  tags: [qa, release-gate, github, jira]
 ---
 
 # Release gate
@@ -28,7 +31,9 @@ Copy the *content* of a template's fenced block, without the ```` ``` ```` fence
 | Phase 2 execution, or static-only close | `references/phase-2.md` |
 | Annex asked, or writing under the cut | `references/evidence-table.md` |
 | Phase 3, a ticket has at least one CUJ not `PASS` | `assets/qa-note.md` |
-| The user asks for the PR comment | `assets/pr-comment.md` |
+| `JIRA` mode, after the reply that approves a QA Note | `assets/qa-note-jira.md` |
+| The user asks for the PR comment, or to update it | `assets/pr-comment.md` |
+| A tool is missing or errors, an env does not answer or answers with an error, a test login fails, or a UI CUJ is about to be `FAIL` or `BLOCKED` while the env SHA contains the PR HEAD | `references/troubleshooting.md` |
 
 Do not load all of them up front. Status words, the decision table, and skip rules live only in this file. Other files point here.
 
@@ -38,7 +43,7 @@ A CUJ status is only one of:
 
 - `PASS`
 - `FAIL`
-- `BLOCKED` — could not run, or ran but cannot be judged. Put the cause in the notes (`env behind`, `tool missing`, `no account`, `no data`, `spec ambiguous`). Never inside the token. `BLOCKED (env behind)` is forbidden. `spec ambiguous` = the AC or two tickets contradict each other, so PASS/FAIL cannot be decided: record what was observed and the question for the PM. A clear AC that is not met is `FAIL`, never `spec ambiguous`.
+- `BLOCKED` — could not run, or ran but cannot be judged. Put the cause in the notes (`env behind`, `env down`, `tool missing`, `no account`, `no data`, `spec ambiguous`). Never inside the token. `BLOCKED (env behind)` is forbidden. `spec ambiguous` = the AC or two tickets contradict each other, so PASS/FAIL cannot be decided: record what was observed and the question for the PM. A clear AC that is not met is `FAIL`, never `spec ambiguous`.
 - `SKIPPED (user-approved — reason)` — you proposed to skip this CUJ, and the user agreed in this thread with a reply that names it (`skip CUJ-03`, `ok pour sauter CUJ-03`). Reason required.
 - `SKIPPED (waived)` — the CUJ was `BLOCKED`, and the user waived **every** cause blocking it (see Waive below). Record who and the reply under the cut.
 
@@ -150,6 +155,8 @@ Preflight in the chat is one line naming every `MISSING` tool. `OK` and `SKIPPED
 | Shape to copy when blocked | `assets/example-good.md` |
 | QA Note shape to copy / to avoid | `assets/example-good.md` / `assets/example-bad.md`, section QA Note |
 
+The templates are enough for a normal run. Open an example only when the template leaves the shape unclear, and never by default: each one costs context on every later turn.
+
 Do not create an HTML artifact unless the user asks. Do not create `gate-report.md` unless they ask for the annex.
 
 ## QA Note
@@ -185,7 +192,7 @@ Every mode: print each draft in full under the chat cut, after `Not verified`: p
 `JIRA`, approval ticket by ticket:
 
 1. Create a note only after a reply in this thread that names its ticket (`create QA note PROJ-123`, `crée la QA note PROJ-123`). `ok`, `go`, silence: no approval.
-2. Create it exactly as approved, with `createJiraIssue` (fields in the asset), the approved draft rendered as the asset's HTML Jira body (`contentFormat: html`: panels, coloured statuses, OK cases collapsed). A requested change means a new draft and a new approval.
+2. Create it exactly as approved, with `createJiraIssue`: fields and HTML Jira body in `assets/qa-note-jira.md` (`contentFormat: html`: panels, coloured statuses, OK cases collapsed). A requested change means a new draft and a new approval.
 3. If the create fails, do not retry with other fields or another issue type: switch that ticket to `DRAFT ONLY (create failed: <error>)` and say so.
 4. Reply with the key and URL of each note created.
 
@@ -195,16 +202,7 @@ This is the only tracker write the skill makes.
 
 When the target is a GitHub PR, Phase 3 offers an evidence comment on the PR, whatever the decision and whatever the QA Note mode: one line above the cut (`assets/chat-phase3.md`). Branch without a PR → no line.
 
-1. Draft it only after a reply that asks for it (`post PR comment`, `fais le commentaire sur la PR`). Shape and file: `assets/pr-comment.md`.
-2. Show the draft: one line per section saying what it holds, and the full path of the file. Wait for a reply approving that draft. `ok` counts here, because the draft was just shown: this is an approval, not a waive, so the Waive rule does not apply. Silence does not count.
-3. Post it exactly as approved: `gh pr comment <id> -R <owner>/<repo> --body-file <file>`. Reply with the comment URL.
-4. Write the comment ID, its `<n>` and the SHA under test in the working trace.
-5. Later in the same thread, on the same SHA under test (a retest, a `Not verified` gap closed, a wording change asked), edit that comment, never post a second one. Keep its `<n>`. Refresh with this run: header token, TL;DR, Setup build proof, Summary, the cases that changed, `After merge`, `Not verified`, and the `QA run:` date. Start from the file; if it is gone, read the body back with `gh api repos/<owner>/<repo>/issues/comments/<comment id> --jq .body`.
-   - A reply that asks for the edit (`update the PR comment`, `mets à jour le commentaire`) approves it: apply it, then say in the chat what changed.
-   - A retest request alone does not: after the retest, show the changed lines and wait for approval.
-   - Apply it with `gh api -X PATCH repos/<owner>/<repo>/issues/comments/<comment id> -F body=@<file>`.
-6. New SHA under test (a fix pushed after the comment): it is a new run. New comment, `TEST #<n+1>`, through steps 1 to 3.
-7. Comment ID lost: find the comment by its header and SHA in the PR comments (`gh api --paginate`). Comment deleted: ask before posting a new one.
+Nothing is drafted until a reply asks for it (`post PR comment`, `fais le commentaire sur la PR`), and nothing is posted or edited without the approval described in `assets/pr-comment.md`. Load that file on that reply, or on a reply that asks to update the comment. It holds the shape, the approval, the update-in-place rule and the `gh` commands.
 
 The PR comment is the only GitHub write the skill makes.
 
@@ -306,6 +304,7 @@ Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. 
 - Scenarios for a deployment setup the project does not run
 - Honoring `fast` when the veto list is hit
 - Write queries
+- Changing an env (scale up, cache purge, redeploy, data fix) without a reply in this thread that names the action and the env. `go` or `ok` alone is not enough
 - Sending or mutating email
 - Replacing a missing tool with a story
 - A status token outside the list in this file
@@ -318,8 +317,8 @@ Phase 3: copy the fenced block in `assets/chat-phase3.md`. Tag alone on line 1. 
 - An HTML artifact or annex file the user did not ask for
 - Copying facts from `assets/example-good.md` into a real report
 - Any tracker write other than a QA Note in `JIRA` mode, approved by a reply naming its ticket: no comment, transition, field edit, or link
-- Any GitHub write other than the PR comment of section PR comment: no review, approval, label, or second QA comment for the same thread
+- Any GitHub write other than the PR comment (`assets/pr-comment.md`): no review, approval, label, or second QA comment for the same thread
 - Posting the report as a ticket comment instead of a QA Note
-- A PR comment posted or edited without the reply that section PR comment requires, or in a language other than English
+- A PR comment drafted, posted or edited without the reply that `assets/pr-comment.md` requires, or in a language other than English
 - Creating anything in `DRAFT ONLY` mode, or creating the note under another issue type when `QA Note` is missing
 - A QA Note in a language other than English

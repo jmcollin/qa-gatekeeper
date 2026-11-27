@@ -1,6 +1,19 @@
 # PR comment — the evidence of the run, posted on the PR, always in English
 
-Everything outside the fence is an instruction. The PR comment is the evidence of the run for the developers and reviewers of the PR. It complements the Phase 3 chat; it never replaces it. When it is drafted, the approval rule and the update rule are in `SKILL.md` (section PR comment). Do not restate them.
+Everything outside the fence is an instruction. The PR comment is the evidence of the run for the developers and reviewers of the PR. It complements the Phase 3 chat; it never replaces it.
+
+## Approval and updates
+
+1. Draft it only after a reply that asks for it (`post PR comment`, `fais le commentaire sur la PR`).
+2. Show the draft: one line per section saying what it holds, and the full path of the file. Wait for a reply approving that draft. `ok` counts here, because the draft was just shown: this is an approval, not a waive, so the Waive rule of `SKILL.md` does not apply. Silence does not count.
+3. Post it exactly as approved: `gh pr comment <id> -R <owner>/<repo> --body-file <file>`. Reply with the comment URL.
+4. Write the comment ID, its `<n>` and the SHA under test in the working trace.
+5. Later in the same thread, on the same SHA under test (a retest, a `Not verified` gap closed, a wording change asked), edit that comment, never post a second one. Keep its `<n>`. Refresh with this run: header token, TL;DR, Setup build proof, Summary, the cases that changed, `After merge`, `Not verified`, and the `QA run:` date. Start from the file; if it is gone, read the body back with `gh api repos/<owner>/<repo>/issues/comments/<comment id> --jq .body`.
+   - A reply that asks for the edit (`update the PR comment`, `mets à jour le commentaire`) approves it: apply it, then say in the chat what changed.
+   - A retest request alone does not: after the retest, show the changed lines and wait for approval.
+   - Apply it with `gh api -X PATCH repos/<owner>/<repo>/issues/comments/<comment id> -F body=@<file>`.
+6. New SHA under test (a fix pushed after the comment): it is a new run. New comment, `TEST #<n+1>`, through steps 1 to 3.
+7. Comment ID lost: find the comment by its header and SHA in the PR comments (`gh api --paginate`). Comment deleted: ask before posting a new one.
 
 ## Before drafting
 

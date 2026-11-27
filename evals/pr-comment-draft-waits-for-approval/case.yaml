@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: pr-comment-draft-waits-for-approval
+expected_outcome: |
+  The reply asks for the comment, so the skill drafts it in English as TEST #1 | GO, writes it to a file, and shows in the chat one line per section plus the full path of that file. It waits for a reply approving the draft. Nothing is posted: no gh pr comment, no claim of a comment URL.

@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-11-27
+
+- New `references/troubleshooting.md`, loaded when a tool errors, an env does not answer, or a result looks stale: CDN "origin down" pages on non-production envs, deployments scaled to zero, NXDOMAIN after a deploy, CDN cache on unversioned assets, translation caches, non-production envs without production assets, the `get_css_styles` crash, SSO-only test accounts. Diagnostics only: dropping a point still goes through `Known decisions applied`, and scaling an env up or purging a cache needs a reply in the thread.
+- New `BLOCKED` cause `env down`: the env does not answer (shutdown, scaled to zero). Distinct from `env behind`, where the env answers without the change.
+- Frontmatter: `metadata.author` and `metadata.tags`. `disable-model-invocation` and `argument-hint` stay top-level: Claude Code reads them there.
+- `evals/`: offline scenario cases for the decision table and the chat surface, in the `claude plugin eval` layout.
+- Phase 3 template: the `Not verified` line itself says a post-merge check never goes there (seen once in an eval run despite the rule in `SKILL.md`).
+- Phase 3 template: the same guard on the `Residual risks` line, and the `Blockers` heading always prints, `Nothing blocking` included (both seen missing in eval runs).
+- Examples are opened only when a template leaves the shape unclear, never by default.
+- Evals: cases for creating an approved QA Note in Jira and for updating the PR comment in place; a `Blockers` heading grader.
+- Changing an env (scale up, cache purge, redeploy, data fix) needs a reply naming the action and the env (new Forbidden line); troubleshooting points to it.
+- Troubleshooting entries diagnose, never decide: a 521 means a shutdown only inside the documented window; a failed second DNS check is `env down`; a recalled cause is measured first.
+- `references/troubleshooting.md` also loads when a test login fails or a UI CUJ is about to fail while the env has the PR HEAD.
+- QA Note parent check (sub-task or epic → ask) moves back before the draft, so the approved parent is the real one; `qa-note-jira.md` no longer restates the summary rule.
+- Lazy loading: the PR comment procedure (approval, update in place, `gh` commands) moves from `SKILL.md` to `assets/pr-comment.md`, loaded when the user asks for the comment or for an update. The Jira fields and HTML body move from `assets/qa-note.md` to `assets/qa-note-jira.md`, loaded only after the reply that approves a note in `JIRA` mode.
+
 ## 2026-11-26
 
 - A ticket gets a QA Note draft only when at least one of its CUJs is not `PASS` (`FAIL`, `BLOCKED` or `SKIPPED`). All `PASS`: no draft and no line in the chat, in every mode. The draft still lists every CUJ of the ticket, `PASS` ones included.

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: qa-note-jira-create-after-approval
+expected_outcome: |
+  The reply names the ticket, so the note is created exactly as drafted: createJiraIssue with projectKey SHOP, issueType QA Note, parent SHOP-77, the summary of the draft, contentFormat html and an HTML description rendered from the draft (panels, coloured statuses, the OK case collapsed), nothing else. The chat replies with the key and URL.

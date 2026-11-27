@@ -20,7 +20,7 @@ Blockers
   — or, if there is none —
 Nothing blocking. <remaining P2s in one line, or: no P2> ]]
 
-Residual risks: <none, or the accepted gaps>
+Residual risks: <none, or the accepted gaps> [[ never a post-merge check: it lives only on the After merge line ]]
 PM must: <action>. Owner: <name, or the requester>.
 Rollback: [[ <revert / flag / cache clear> | UNKNOWN, accepted by <who>: "<their reply>" | UNKNOWN, not accepted ]]
 [[ only when the run has post-merge checks:
@@ -49,7 +49,7 @@ CUJ-<n> · P<0-2> · <STATUS>
 
 Not verified
 - DB: [[ OFF. Risk: <state not re-read>. | ON, see SQL above. ]]
-- <other gap>: <risk>
+- <other gap>: <risk> [[ never a post-merge check: it lives only on the After merge line above the cut ]]
 
 [[ one block per ticket with at least one CUJ not PASS, or nothing if there is none:
 QA Note draft — <KEY>
@@ -64,6 +64,7 @@ Summary: <summary per assets/qa-note.md>
 - Nothing above the tag. No tag in Phase 1.
 - `GO WITH RISKS` keeps Residual risks, Owner, and Rollback above the cut.
 - `UNKNOWN, not accepted` only appears with `NO-GO` (decision table in `SKILL.md`). A known rollback needs no acceptance.
+- The `Blockers` heading always prints, `Nothing blocking` included: the PM scans for it.
 - `GO` always has `Nothing blocking`. A `GO` with a Blockers line is a contradiction: re-read the decision table.
 - The `After merge` line is not a blocker, not a residual risk, and not a `Not verified` item. It fits with any decision, `GO` included (`SKILL.md`, section Post-merge checks).
 - Translate the prose to the user's language. Tokens stay in English. The QA Note drafts stay in English entirely.

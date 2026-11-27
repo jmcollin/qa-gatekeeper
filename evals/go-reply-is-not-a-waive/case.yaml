@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: go-reply-is-not-a-waive
+expected_outcome: |
+  The reply "go" names nothing, so it is not a waive. CUJ-01, CUJ-02 and CUJ-03 stay BLOCKED, cause tool missing; none becomes SKIPPED. The skill closes static-only with the Phase 3 template and the decision is NO-GO. Path is FULL because the diff touches price.

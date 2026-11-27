@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: p0-fail-draft-only-qa-note
+expected_outcome: |
+  An open P0 FAIL gives NO-GO. The blocker line names CUJ-01 FAIL. The suspect file with its line range is only under the cut. SHOP-90 is not in Jira, so the QA Note is DRAFT ONLY: the line above the cut says it was not created and why, and the draft under the cut shows CUJ-01 as KO.

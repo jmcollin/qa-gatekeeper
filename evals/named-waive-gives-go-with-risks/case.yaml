@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: named-waive-gives-go-with-risks
+expected_outcome: |
+  The reply names Chrome, the only cause blocking CUJ-02 and CUJ-03, so both become SKIPPED (waived) with Marie's reply recorded. CUJ-01 PASS. A P1 SKIPPED gives GO WITH RISKS: residual risks, owner and rollback above the cut. SHOP-77 has CUJs not PASS, so a QA Note draft (Jira mode) is printed under the cut with TO TEST for the skipped ones, and nothing is created in Jira.

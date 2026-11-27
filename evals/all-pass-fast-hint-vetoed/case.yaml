@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: all-pass-fast-hint-vetoed
+expected_outcome: |
+  Every CUJ PASS, CI GREEN, rollback known: GO. The fast hint is ignored because the diff touches payment, so the path is FULL with 'Fast hint: ignored — payment'. Nothing blocking. No QA Note and no line about it, since every CUJ of SHOP-80 is PASS. The PR comment offer line is present.

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: post-merge-check-and-unrelated-ci
+expected_outcome: |
+  CI is RED (unrelated) naming e2e-legacy, which gives GO WITH RISKS. The preprod step is a post-merge check: it appears on the After merge line with its env and an owner, is not under Not verified, and does not change the decision. The PR comment offer line is present.

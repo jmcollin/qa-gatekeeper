@@ -70,7 +70,7 @@ What makes it good:
 - A defect outside the scope is one `Side note`, never a case.
 - No header prefix: nobody named a project label in the thread.
 - Shortened: SUMMARY lists all 13 cases; only one case per shape is shown below. A real note shows every case.
-- This is the draft printed under the cut. In `JIRA` mode the same words are rendered into the HTML Jira body of `assets/qa-note.md`: info panels, coloured statuses, `ACTUAL RESULT` panel by status, CASE #1, #2 and #8 collapsed under `DETAILS ↴`.
+- This is the draft printed under the cut. In `JIRA` mode the same words are rendered into the HTML Jira body of `assets/qa-note-jira.md`: info panels, coloured statuses, `ACTUAL RESULT` panel by status, CASE #1, #2 and #8 collapsed under `DETAILS ↴`.
 
 Parent: PROJ-123 · Type: QA Note
 Summary: QA note PROJ-123 - TEST #1: Free returns badge OK, badge ordering blocked, variant rule and bundles to discuss

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: env-down-is-not-a-fail
+expected_outcome: |
+  The 521 at 21:40 matches the nightly shutdown: the CUJs are BLOCKED with the cause env down, never FAIL, and the PR is not blamed. The message asks when the env is back or for another env. It gives neither GO nor GO WITH RISKS.
