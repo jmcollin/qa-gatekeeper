@@ -40,12 +40,21 @@ Working trace, not the chat grid:
 - `title`: `<Area>: <behaviour checked>`, in English, e.g. `PDP Delivery & returns: Product with Free returns = NO shows no returns badge`.
 - Preconditions, steps and expected: in English too, numbered steps, env URL in step 1. They are copied into the QA Note as written.
 - Cover the AC first, then regressions, then out-of-scope guards (`the X is not displayed elsewhere`) when the AC fences the scope.
+- An AC step that can only run after the merge is a post-merge check, not a CUJ: conditions and evidence in `SKILL.md`, section Post-merge checks. Its behaviour still gets a pre-merge CUJ.
 
 Evidence is specific: `HTTP 200 + cart JSON has X`, `no console error on checkout`, `mail subject/body/link`, `SELECT order state`. Do not demand console+network+UI on a non-UI CUJ.
 
 Under the cut, one line:
 
 `- CUJ-01 · P0 · owner account · SSO login, no loop, external return_to neutralized. Evidence: network chain, console.`
+
+Post-merge checks, working trace:
+
+`ticket | title | env URL | steps | expected | owner | AC wording | deploy evidence (file at base ref) | covering CUJ`
+
+Under the cut, one line:
+
+`- After merge · preprod · file upload and processing, same file as CUJ-01. AC: "before the prod tag". Deploy: preprod built from tags only (CD workflow at main).`
 
 ## 4. Access
 

@@ -23,6 +23,8 @@ Nothing blocking. <remaining P2s in one line, or: no P2> ]]
 Residual risks: <none, or the accepted gaps>
 PM must: <action>. Owner: <name, or the requester>.
 Rollback: [[ <revert / flag / cache clear> | UNKNOWN, accepted by <who>: "<their reply>" | UNKNOWN, not accepted ]]
+[[ only when the run has post-merge checks:
+After merge: <check> on <env>[[, <next check> on <env>]]. Owner: <name, or the requester>. ]]
 [[ one line per ticket with at least one CUJ not PASS, or nothing if there is none, in the shape of its QA Note mode:
 QA Note <KEY>: draft below. Reply `create QA note <KEY>` to create it in Jira.
   — or, mode DRAFT ONLY —
@@ -63,6 +65,7 @@ Summary: <summary per assets/qa-note.md>
 - `GO WITH RISKS` keeps Residual risks, Owner, and Rollback above the cut.
 - `UNKNOWN, not accepted` only appears with `NO-GO` (decision table in `SKILL.md`). A known rollback needs no acceptance.
 - `GO` always has `Nothing blocking`. A `GO` with a Blockers line is a contradiction: re-read the decision table.
+- The `After merge` line is not a blocker, not a residual risk, and not a `Not verified` item. It fits with any decision, `GO` included (`SKILL.md`, section Post-merge checks).
 - Translate the prose to the user's language. Tokens stay in English. The QA Note drafts stay in English entirely.
 - The `create QA note <KEY>` line is the action, not a question after evidence. Nothing is written to Jira until that reply arrives (section QA Note in `SKILL.md`). In `DRAFT ONLY` mode there is no action: nothing is ever written.
 - Do not print this Rules section.

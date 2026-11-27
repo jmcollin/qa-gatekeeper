@@ -10,7 +10,7 @@ Run every CUJ of the Phase 1 plan. A UI CUJ of any priority needs Chrome DevTool
 
 A CUJ that cannot be simulated from the browser: say why, propose another source (unit tests, a code path you can read), and ask before settling on it.
 
-Before the Phase 3 chat, every Phase 1 row has a status from `SKILL.md`. Play any row still open, or ask about it.
+Before the Phase 3 chat, every Phase 1 CUJ has a status from `SKILL.md`. Play any CUJ still open, or ask about it. Post-merge checks are never run here (`SKILL.md`, section Post-merge checks).
 
 ## How to run one CUJ
 

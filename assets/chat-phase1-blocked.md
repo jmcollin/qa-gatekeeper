@@ -25,6 +25,8 @@ Context, if you scroll
 Planned journeys
 - CUJ-01 P0 <actor> — <expected, one sentence>. <STATUS>: <cause or evidence, one line>.
 - CUJ-02 P1 <actor> — <expected>. <STATUS>: <cause or evidence>.
+[[ only when the plan has post-merge checks:
+After merge (no status, not run by this gate): <check> on <env>. ]]
 
 <One line on what is already on the env.>
 

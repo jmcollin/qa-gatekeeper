@@ -88,6 +88,20 @@ _<PR <id> · <short sha> · FAST|FULL · accounts by role label (never credentia
 * Side note (pre-existing, out of scope): <one sentence> ]]
 
 ---
+
+[[ only when this ticket has post-merge checks:
+### **⏭️ AFTER MERGE**
+
+**<Area>: <behaviour checked>**
+
+1. <step; step 1 carries the environment URL>
+2. <step>
+
+**EXPECTED RESULT:**
+
+* <expected>
+
+**OWNER:** <name, or the requester> ]]
 ```
 
 ## Jira body (`JIRA` mode only)
@@ -109,6 +123,12 @@ Render the approved draft into this HTML. Emit the fragment only, without the fe
 <div data-type="panel-info"><p><strong>EXPECTED RESULT:</strong></p><ul><li><p><expected></p></li></ul></div>
 <div data-type="<actual panel>"><p><strong>ACTUAL RESULT:</strong></p><ul><li><p><one bullet of the draft per item></p></li></ul></div>
 <hr>
+[[ only when the draft has an AFTER MERGE block:
+<div data-type="panel-note"><h3><strong>⏭️ AFTER MERGE</strong></h3></div>
+<p><strong><Area>: <behaviour checked></strong></p>
+<h3><strong>STEPS:</strong></h3><ol><li><p><step, URLs as <a href="URL">URL</a>></p></li></ol>
+<div data-type="panel-info"><p><strong>EXPECTED RESULT:</strong></p><ul><li><p><expected></p></li></ul></div>
+<p><strong>OWNER:</strong> <name, or the requester></p> ]]
 ```
 
 | Value | Colour (`style="color: …"`) | ACTUAL RESULT panel | OK collapsed |

@@ -24,6 +24,7 @@ Prefer bullets when a cell is longer than a few words.
 - Owner: named person, or the requester. Required when the decision is `GO WITH RISKS`
 - Tests not run + why
 - Gaps accepted by the user: the gap, and the reply that accepted it
+- Post-merge checks: each one, the AC wording that names its env or moment, the deploy config showing that env is built from the base branch or a tag, and the pre-merge CUJ covering its behaviour
 - Plan: each Phase 1 invariant, one bullet, with the CUJ that covers it or `not covered` + why
 
 Do not cite ticket status. In the chat, do not repeat A as a second essay.
@@ -51,4 +52,4 @@ Only if a FAIL exists. Under that CUJ block:
 
 ## D. Gaps
 
-What was not tested (perf, a11y, mobile, rollback drill, DB when OFF, waived tools, orphan spec files) and the risk of each gap. In the chat this is the `Not verified` list.
+What was not tested (perf, a11y, mobile, rollback drill, DB when OFF, waived tools, orphan spec files) and the risk of each gap. In the chat this is the `Not verified` list. Post-merge checks are listed in A, never here nor under `Tests not run`.
